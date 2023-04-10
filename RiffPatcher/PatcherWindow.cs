@@ -13,6 +13,6 @@ public partial class PatcherWindow : Form
 
 	private void GitHubClicked(object sender, EventArgs e)
 	{
-		Process.Start("https://github.com/ayesc9000/RiffPatcher");
+		Process.Start("explorer", "https://github.com/ayesc9000/RiffPatcher");
 	}
 }
