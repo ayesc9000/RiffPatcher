@@ -53,7 +53,7 @@ partial class PatcherWindow
 		// 
 		// FileButton
 		// 
-		FileButton.Location = new Point(12, 107);
+		FileButton.Location = new Point(12, 109);
 		FileButton.Name = "FileButton";
 		FileButton.Size = new Size(100, 23);
 		FileButton.TabIndex = 0;
@@ -83,7 +83,7 @@ partial class PatcherWindow
 		// FileSectionLabel
 		// 
 		FileSectionLabel.AutoSize = true;
-		FileSectionLabel.Location = new Point(12, 87);
+		FileSectionLabel.Location = new Point(12, 89);
 		FileSectionLabel.Name = "FileSectionLabel";
 		FileSectionLabel.Size = new Size(254, 15);
 		FileSectionLabel.TabIndex = 5;
@@ -92,7 +92,7 @@ partial class PatcherWindow
 		// URLInput
 		// 
 		URLInput.Enabled = false;
-		URLInput.Location = new Point(12, 165);
+		URLInput.Location = new Point(12, 172);
 		URLInput.MaxLength = 30;
 		URLInput.Name = "URLInput";
 		URLInput.Size = new Size(271, 23);
@@ -103,7 +103,7 @@ partial class PatcherWindow
 		// 
 		FileValidLabel.AutoSize = true;
 		FileValidLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
-		FileValidLabel.Location = new Point(116, 112);
+		FileValidLabel.Location = new Point(116, 114);
 		FileValidLabel.Name = "FileValidLabel";
 		FileValidLabel.Size = new Size(0, 13);
 		FileValidLabel.TabIndex = 8;
@@ -111,7 +111,7 @@ partial class PatcherWindow
 		// URLSectionLabel
 		// 
 		URLSectionLabel.AutoSize = true;
-		URLSectionLabel.Location = new Point(12, 145);
+		URLSectionLabel.Location = new Point(12, 152);
 		URLSectionLabel.Name = "URLSectionLabel";
 		URLSectionLabel.Size = new Size(137, 15);
 		URLSectionLabel.TabIndex = 9;
@@ -120,11 +120,11 @@ partial class PatcherWindow
 		// URLRequirementsLabel
 		// 
 		URLRequirementsLabel.AutoSize = true;
-		URLRequirementsLabel.Location = new Point(12, 194);
+		URLRequirementsLabel.Location = new Point(12, 201);
 		URLRequirementsLabel.Name = "URLRequirementsLabel";
-		URLRequirementsLabel.Size = new Size(217, 60);
+		URLRequirementsLabel.Size = new Size(235, 15);
 		URLRequirementsLabel.TabIndex = 10;
-		URLRequirementsLabel.Text = "The URL must meet these requirements:\r\n  - Exactly 30 characters long\r\n  - Must begin with \"https://\"\r\n  - Must end with a forward slash \"/\"";
+		URLRequirementsLabel.Text = "The URL must be exactly 29 characters long";
 		// 
 		// URLValidLabel
 		// 
@@ -138,7 +138,7 @@ partial class PatcherWindow
 		// PatchSectionLabel
 		// 
 		PatchSectionLabel.AutoSize = true;
-		PatchSectionLabel.Location = new Point(12, 271);
+		PatchSectionLabel.Location = new Point(12, 239);
 		PatchSectionLabel.Name = "PatchSectionLabel";
 		PatchSectionLabel.Size = new Size(156, 15);
 		PatchSectionLabel.TabIndex = 13;
@@ -147,18 +147,19 @@ partial class PatcherWindow
 		// PatchButton
 		// 
 		PatchButton.Enabled = false;
-		PatchButton.Location = new Point(12, 291);
+		PatchButton.Location = new Point(12, 259);
 		PatchButton.Name = "PatchButton";
 		PatchButton.Size = new Size(100, 23);
 		PatchButton.TabIndex = 12;
 		PatchButton.Text = "Patch!";
 		PatchButton.UseVisualStyleBackColor = true;
+		PatchButton.Click += PatchFile;
 		// 
 		// PatchSuccessLabel
 		// 
 		PatchSuccessLabel.AutoSize = true;
 		PatchSuccessLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
-		PatchSuccessLabel.Location = new Point(116, 296);
+		PatchSuccessLabel.Location = new Point(116, 264);
 		PatchSuccessLabel.Name = "PatchSuccessLabel";
 		PatchSuccessLabel.Size = new Size(0, 13);
 		PatchSuccessLabel.TabIndex = 14;
@@ -167,7 +168,7 @@ partial class PatcherWindow
 		// 
 		InfoLabel.AutoSize = true;
 		InfoLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
-		InfoLabel.Location = new Point(12, 335);
+		InfoLabel.Location = new Point(12, 300);
 		InfoLabel.Name = "InfoLabel";
 		InfoLabel.Size = new Size(193, 13);
 		InfoLabel.TabIndex = 15;
@@ -177,7 +178,7 @@ partial class PatcherWindow
 		// 
 		GitHubLabel.AutoSize = true;
 		GitHubLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
-		GitHubLabel.Location = new Point(277, 335);
+		GitHubLabel.Location = new Point(287, 300);
 		GitHubLabel.Name = "GitHubLabel";
 		GitHubLabel.Size = new Size(73, 13);
 		GitHubLabel.TabIndex = 16;
@@ -219,7 +220,7 @@ partial class PatcherWindow
 		// 
 		AutoScaleDimensions = new SizeF(7F, 15F);
 		AutoScaleMode = AutoScaleMode.Font;
-		ClientSize = new Size(362, 357);
+		ClientSize = new Size(362, 322);
 		Controls.Add(HeaderPanel);
 		Controls.Add(FileSectionLabel);
 		Controls.Add(FileButton);
@@ -239,6 +240,7 @@ partial class PatcherWindow
 		Name = "PatcherWindow";
 		SizeGripStyle = SizeGripStyle.Hide;
 		Text = "RiffPatcher";
+		FormClosing += Closing;
 		HeaderPanel.ResumeLayout(false);
 		HeaderPanel.PerformLayout();
 		ResumeLayout(false);

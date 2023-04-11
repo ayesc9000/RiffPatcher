@@ -7,6 +7,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Text;
 
 /// <summary>
 /// The main window displayed to the user
@@ -87,13 +88,8 @@ public partial class PatcherWindow : Form
 		URLValidLabel.Text = string.Empty;
 		PatchSuccessLabel.Text = string.Empty;
 
-		// URL tests
-		bool length = URLInput.Text.Length == 30;
-		bool start = URLInput.Text.StartsWith("https://");
-		bool end = URLInput.Text.EndsWith("/");
-
 		// Check that URL is valid
-		if (length && start && end)
+		if (URLInput.Text.Length == 29)
 		{
 			PatchButton.Enabled = true;
 			URLValidLabel.Text = "Valid URL";
@@ -103,6 +99,46 @@ public partial class PatcherWindow : Form
 
 		URLValidLabel.Text = "Invalid URL";
 		URLValidLabel.ForeColor = Color.Red;
+	}
+
+	/// <summary>
+	/// Patch the selected file
+	/// </summary>
+	/// <param name="sender">Event sender</param>
+	/// <param name="e">Event arguments</param>
+	private void PatchFile(object sender, EventArgs e)
+	{
+		// Create backup
+		FileStream backup = File.Create(file.Name + ".bak");
+		file.Seek(0, SeekOrigin.Begin);
+		file.CopyTo(backup);
+		backup.Close();
+
+		// Get and verify data
+		byte[] data = Encoding.ASCII.GetBytes(URLInput.Text);
+
+		if (data.Length != 29)
+		{
+			MessageBox.Show($"Unexpected length of new data, expected 29 bytes, got {data.Length}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return;
+		}
+
+		// Write data
+		file.Seek(OFFSET, SeekOrigin.Begin);
+		file.Write(data, 0, 29);
+
+		MessageBox.Show("Patching complete!\n\nA backup file has been created alongside the patched file. " +
+			"If you choose to patch again with a new server, you will need to restore the backup file first.", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+	}
+
+	/// <summary>
+	/// Shut down the window and any open resources
+	/// </summary>
+	/// <param name="sender">Event sender</param>
+	/// <param name="e">Form closing event arguments</param>
+	private void Closing(object sender, FormClosingEventArgs e)
+	{
+		file.Close();
 	}
 
 	/// <summary>
