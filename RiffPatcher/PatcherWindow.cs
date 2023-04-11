@@ -16,8 +16,8 @@ public partial class PatcherWindow : Form
 {
 	private const string HASH = "d661606db8658adb54d5be18b3e3a3a6f07c8e738f2d78556ece42355f8e62e4";
 	private const int OFFSET = 22436;
+	private readonly SHA256 sha;
 	private FileStream? file;
-	private SHA256 sha;
 
 	/// <summary>
 	/// Intitialize the patcher window
@@ -27,10 +27,7 @@ public partial class PatcherWindow : Form
 		InitializeComponent();
 		sha = SHA256.Create();
 
-		// Set version label
-		VersionLabel.Text = Assembly.GetEntryAssembly()
-			.GetName()
-			.Version.ToString();
+		VersionLabel.Text = Version();
 	}
 
 	/// <summary>
@@ -108,6 +105,21 @@ public partial class PatcherWindow : Form
 	/// <param name="e">Event arguments</param>
 	private void PatchFile(object sender, EventArgs e)
 	{
+		// Check if file is loaded
+		if (file is null)
+		{
+			MessageBox.Show("File not ready", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+			// Reset fields
+			URLInput.Enabled = false;
+			PatchButton.Enabled = false;
+			URLInput.Text = string.Empty;
+			URLValidLabel.Text = string.Empty;
+			PatchSuccessLabel.Text = string.Empty;
+
+			return;
+		}
+
 		// Create backup
 		FileStream backup = File.Create(file.Name + ".bak");
 		file.Seek(0, SeekOrigin.Begin);
@@ -136,9 +148,9 @@ public partial class PatcherWindow : Form
 	/// </summary>
 	/// <param name="sender">Event sender</param>
 	/// <param name="e">Form closing event arguments</param>
-	private void Closing(object sender, FormClosingEventArgs e)
+	private new void Closing(object sender, FormClosingEventArgs e)
 	{
-		file.Close();
+		file?.Close();
 	}
 
 	/// <summary>
@@ -147,10 +159,31 @@ public partial class PatcherWindow : Form
 	/// <returns>True if the hashes match, otherwise false</returns>
 	private bool CheckSHA256()
 	{
+		// Check if file is loaded
+		if (file is null)
+		{
+			MessageBox.Show("File not ready", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return false;
+		}
+
+		// Check hash
 		string fhash = BitConverter.ToString(sha.ComputeHash(file))
 			.Replace("-", "")
 			.ToLower();
 
 		return HASH == fhash;
+	}
+
+	/// <summary>
+	/// Get the version string for this app
+	/// </summary>
+	/// <returns>The version as a string, or unknown if the version cannot be determined</returns>
+	private static string Version()
+	{
+		Assembly? asm = Assembly.GetEntryAssembly();
+		if (asm is null) return "Unknown";
+
+		Version? ver = asm.GetName().Version;
+		return ver is null ? "Unknown" : ver.ToString();
 	}
 }
