@@ -47,6 +47,7 @@ partial class PatcherWindow
 		GitHubLabel = new LinkLabel();
 		VersionLabel = new Label();
 		HeaderPanel = new Panel();
+		OpenFileDialog = new OpenFileDialog();
 		HeaderPanel.SuspendLayout();
 		SuspendLayout();
 		// 
@@ -58,6 +59,7 @@ partial class PatcherWindow
 		FileButton.TabIndex = 0;
 		FileButton.Text = "Select file...";
 		FileButton.UseVisualStyleBackColor = true;
+		FileButton.Click += SelectFile;
 		// 
 		// TitleLabel
 		// 
@@ -95,6 +97,7 @@ partial class PatcherWindow
 		URLInput.Name = "URLInput";
 		URLInput.Size = new Size(271, 23);
 		URLInput.TabIndex = 7;
+		URLInput.TextChanged += URLChanged;
 		// 
 		// FileValidLabel
 		// 
@@ -102,9 +105,8 @@ partial class PatcherWindow
 		FileValidLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
 		FileValidLabel.Location = new Point(116, 112);
 		FileValidLabel.Name = "FileValidLabel";
-		FileValidLabel.Size = new Size(35, 13);
+		FileValidLabel.Size = new Size(0, 13);
 		FileValidLabel.TabIndex = 8;
-		FileValidLabel.Text = "Valid!";
 		// 
 		// URLSectionLabel
 		// 
@@ -130,9 +132,8 @@ partial class PatcherWindow
 		URLValidLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
 		URLValidLabel.Location = new Point(287, 171);
 		URLValidLabel.Name = "URLValidLabel";
-		URLValidLabel.Size = new Size(35, 13);
+		URLValidLabel.Size = new Size(0, 13);
 		URLValidLabel.TabIndex = 11;
-		URLValidLabel.Text = "Valid!";
 		// 
 		// PatchSectionLabel
 		// 
@@ -159,9 +160,8 @@ partial class PatcherWindow
 		PatchSuccessLabel.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
 		PatchSuccessLabel.Location = new Point(116, 296);
 		PatchSuccessLabel.Name = "PatchSuccessLabel";
-		PatchSuccessLabel.Size = new Size(49, 13);
+		PatchSuccessLabel.Size = new Size(0, 13);
 		PatchSuccessLabel.TabIndex = 14;
-		PatchSuccessLabel.Text = "Success!";
 		// 
 		// InfoLabel
 		// 
@@ -205,6 +205,15 @@ partial class PatcherWindow
 		HeaderPanel.Name = "HeaderPanel";
 		HeaderPanel.Size = new Size(362, 77);
 		HeaderPanel.TabIndex = 18;
+		// 
+		// OpenFileDialog
+		// 
+		OpenFileDialog.DefaultExt = "dll";
+		OpenFileDialog.FileName = "ParseOctane.dll";
+		OpenFileDialog.Filter = "Dynamic Link Library (*.dll)|*.dll";
+		OpenFileDialog.InitialDirectory = "C:\\";
+		OpenFileDialog.RestoreDirectory = true;
+		OpenFileDialog.SelectReadOnly = false;
 		// 
 		// PatcherWindow
 		// 
@@ -254,4 +263,5 @@ partial class PatcherWindow
 	private LinkLabel GitHubLabel;
 	private Label VersionLabel;
 	private Panel HeaderPanel;
+	private OpenFileDialog OpenFileDialog;
 }
