@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
+using System.Reflection;
 using System.Windows.Forms;
 
 /// <summary>
@@ -24,6 +25,11 @@ public partial class PatcherWindow : Form
 	{
 		InitializeComponent();
 		sha = SHA256.Create();
+
+		// Set version label
+		VersionLabel.Text = Assembly.GetEntryAssembly()
+			.GetName()
+			.Version.ToString();
 	}
 
 	/// <summary>
